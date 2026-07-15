@@ -117,6 +117,8 @@ function runSearch() {
     document.getElementById('search-overlay').style.display='block';
     document.getElementById('search-overlay').scrollTop=0;
     document.body.style.overflow='hidden';
+      // 🔹 ADD THIS LINE for mobile back button
+    history.pushState({ overlay: 'search' }, '');
 }
 
 function closeSearch() {
@@ -183,6 +185,9 @@ function showDetail(cat, idx) {
     document.getElementById('detail-modal').style.display='block';
     document.getElementById('detail-modal').scrollTop=0;
     document.body.style.overflow='hidden';
+
+    // 🔹 ADD THIS LINE for mobile back button
+    history.pushState({ overlay: 'detail' }, '');
 }
 
 function closeDetail(){
@@ -212,6 +217,9 @@ function showPage(category) {
     document.getElementById('listings-overlay').style.display='block';
     document.getElementById('listings-overlay').scrollTop=0;
     document.body.style.overflow='hidden';
+
+    // 🔹 ADD THIS LINE for mobile back button
+    history.pushState({ overlay: 'listings' }, '');
 }
 
 function closePage(){
@@ -246,3 +254,15 @@ function showProcess(id, btn) {
 
 // ── START THE APP ──
 document.addEventListener('DOMContentLoaded', initApp);
+
+// ── MOBILE BACK BUTTON HANDLER ──
+window.addEventListener('popstate', function(event) {
+    // Check overlays in reverse order of how they are layered (top to bottom)
+    if (document.getElementById('detail-modal').style.display === 'block') {
+        closeDetail();
+    } else if (document.getElementById('search-overlay').style.display === 'block') {
+        closeSearch();
+    } else if (document.getElementById('listings-overlay').style.display === 'block') {
+        closePage();
+    }
+});
