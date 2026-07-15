@@ -137,7 +137,7 @@ function buildAlbum(rooms) {
 
 function renderAlbumMain() {
     const r = currentAlbum[currentAlbumIdx];
-    document.getElementById('album-main-bg').style.cssText = `width:100%;height:100%;background:${r.grad};background-size:contain;background-position:centeer;background-repeat:no-repeat;`;
+    document.getElementById('album-main-bg').style.cssText = `width:100%;height:100%;background:${r.grad};background-size:cover;background-position:center;background-repeat:no-repeat;`;
     document.getElementById('album-label').textContent = r.icon+'  '+r.label;
     document.querySelectorAll('.album-thumb').forEach((t,i)=>t.classList.toggle('active',i===currentAlbumIdx));
     document.querySelectorAll('.album-dot').forEach((d,i)=>d.classList.toggle('active',i===currentAlbumIdx));
