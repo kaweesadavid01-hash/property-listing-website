@@ -454,7 +454,7 @@
 
 <!-- ══ LISTINGS PAGES (hidden, shown on click) ══ -->
 <div id="listings-overlay" style="display:none;position:fixed;inset:0;z-index:600;background:var(--parch);overflow-y:auto;">
-  <div style="max-width:1280px;margin:0.1rem;padding:0.5rem">
+  <div style="max-width:100vw;margin:0.1rem;padding:0.5rem">
     <!-- Header -->
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:1px solid var(--choc-light)">
       <div id="page-title"></div>
@@ -462,11 +462,11 @@
     </div>
     <!-- Filter bar -->
     <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:1rem;">
-      <input type="text" placeholder="Search by location…" style="flex:1;min-width:100px;padding:5px 8px;border:1px solid var(--choc-light);background:var(--white);font-family:'Cormorant Garamond',serif;font-size:1rem;outline:none;color:var(--dark)"/>
-      <select id="listing-filter" style="padding:6px 8px;border:1px solid var(--choc-light);background:var(--white);font-family:'Cormorant Garamond',serif;font-size:1rem;color:rgb(241, 241, 240);outline:none;cursor:pointer">
+      <input type="text" placeholder="Search by location…" style="flex:1;min-width:100px;padding:5px 8px;border:1px solid var(--choc-light);background:var(--white);font-family:'Cormorant',serif;font-size:0.9rem;outline:none;color:var(--dark)"/>
+      <select id="listing-filter" style="padding:6px 8px;border:1px solid var(--choc-light);background:var(--white);font-family:'Cormorant',serif;font-size:0.9rem;color:rgb(241, 241, 240);outline:none;cursor:pointer">
         <option value="">All Types</option>
       </select>
-      <select id="filter-options" style="padding:6px 8px;border:1px solid var(--choc-light);background:var(--white);font-family:'Cormorant Garamond',serif;font-size:1rem;color:rgb(241, 241, 240);outline:none;cursor:pointer">
+      <select id="filter-options" style="padding:6px 8px;border:1px solid var(--choc-light);background:var(--white);font-family:'Cormorant',serif;font-size:0.9rem;color:rgb(241, 241, 240);outline:none;cursor:pointer">
         <option>Sort: Newest First</option>
         <option>Price: Low to High</option>
         <option>Price: High to Low</option>

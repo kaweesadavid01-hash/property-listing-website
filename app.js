@@ -105,7 +105,7 @@ function runSearch() {
             const bs = item.label==='Per Night From'?'background:var(--tan);color:var(--dark)':'';
             const bc = item.label==='Per Month'?'for-rent':'';
             return `<div class="listing-full-card" onclick="showDetail('${item._cat}',${item._idx})">
-                <div class="prop-img"><div class="prop-img-bg ${item.bg}" style="${item.bg2||''};width:100%;height:100%;background-size:contain;background-position:center;background-repeat:no-repeat;margin-top:5px"></div>
+                <div class="prop-img"><div class="prop-img-bg ${item.bg}" style="${item.bg2||''};width:100%;height:100%;background-size:cover;background-position:center;background-repeat:no-repeat;margin-top:5px"></div>
                 <div class="prop-badnt-pill">📷 ${item.rooms.length} Photos</div></div>
                 <div class="prop-bodyge ${bc}" style="${bs}">${bt}</div>
                 <div class="album-cou"><div class="prop-type">${item.type}</div><div class="prop-title">${item.title}</div>
@@ -195,18 +195,49 @@ function closeDetail(){
     document.body.style.overflow='';
 }
 
-// ── LISTINGS PAGE ──
 function showPage(category) {
     const data = listingsData[category];
     if(!data) return;
+    
     document.getElementById('page-title').textContent = data.title;
-    document.getElementById('listing-filter').innerHTML = data.filterOptions.map(o=>`<option>${o}</option>`).join('');
-    document.getElementById('listings-grid').innerHTML = data.items.map((item,idx)=>{
+    
+    // Build dropdown with BOTH filter and sort options
+    let dropdownHTML = '<option value="all">All Types</option>';
+    
+    // Add filter options (skip "All Types" since we added it above)
+    data.filterOptions.filter(o => o !== 'All Types').forEach(o => {
+        dropdownHTML += `<option value="filter-${o}">${o}</option>`;
+    });
+    
+    // Add separator
+    dropdownHTML += '<option disabled>──────────</option>';
+    
+    // Add sort options
+    dropdownHTML += '<option value="sort-newest">Sort: Newest First</option>';
+    dropdownHTML += '<option value="sort-price-low">Price: Low to High</option>';
+    dropdownHTML += '<option value="sort-price-high">Price: High to Low</option>';
+    
+    document.getElementById('listing-filter').innerHTML = dropdownHTML;
+    
+    // Render initial grid
+    renderListingsGrid(category, data.items);
+    
+    document.getElementById('listings-overlay').style.display='block';
+    document.getElementById('listings-overlay').scrollTop=0;
+    document.body.style.overflow='hidden';
+}
+
+function renderListingsGrid(category, items) {
+    document.getElementById('listings-grid').innerHTML = items.map((item,idx)=>{
         const bt = item.label==='Per Month'?'For Rent':item.label==='Per Night From'?'Short Stay':'For Sale';
         const bs = item.label==='Per Night From'?'background:var(--tan);color:var(--dark)':'';
         const bc = item.label==='Per Month'?'for-rent':'';
-        return `<div class="listing-full-card" onclick="showDetail('${category}',${idx})">
-            <div class="prop-img"><div class="prop-img-bg ${item.bg}" style=${item.bg2||''};width:100%;height:100%;background-size:contain;background-position:center;background-repeat:no-repeat;margin-top:5px"></div>
+        
+        // Find the original index in the full listingsData
+        const originalIdx = listingsData[category].items.indexOf(item);
+        
+        return `<div class="listing-full-card" onclick="showDetail('${category}',${originalIdx})">
+            <div class="prop-img"><div class="prop-img-bg ${item.bg}" style=${item.bg2||''};width:100%;height:100%;background-size:cover;background-position:center;background-repeat:no-repeat;margin-top:5px"></div>
             <div class="prop-badge ${bc}" style="${bs}">${bt}</div>
             <div class="album-count-pill">📷 ${item.rooms.length} Photos</div></div>
             <div class="prop-body"><div class="prop-type">${item.type}</div><div class="prop-title">${item.title}</div>
@@ -214,12 +245,6 @@ function showPage(category) {
             <div style="font-family:'Montserrat',sans-serif;font-size:.62rem;color:rgb(193, 193, 161);margin-bottom:14px">${item.specs.slice(0,3).map(s=>s.k+': '+s.v).join(' · ')}</div>
             <div class="prop-footer"><div class="prop-price"><small>${item.label}</small>${item.price}</div><div class="prop-action">→</div></div></div></div>`;
     }).join('');
-    document.getElementById('listings-overlay').style.display='block';
-    document.getElementById('listings-overlay').scrollTop=0;
-    document.body.style.overflow='hidden';
-
-    // 🔹 ADD THIS LINE for mobile back button
-    history.pushState({ overlay: 'listings' }, '');
 }
 
 function closePage(){
@@ -266,3 +291,86 @@ window.addEventListener('popstate', function(event) {
         closePage();
     }
 });
+
+// ── LISTING FILTER & SORT ──
+document.getElementById('listing-filter').addEventListener('change', function() {
+    const value = this.value;
+    const pageTitle = document.getElementById('page-title').textContent;
+    
+    // Determine which category we're viewing
+    let category = '';
+    if(pageTitle.includes('Land')) category = 'land';
+    else if(pageTitle.includes('Apartment')) category = 'apartments';
+    else if(pageTitle.includes('Rental')) category = 'rentals';
+    else if(pageTitle.includes('Short Stay')) category = 'shortstays';
+    
+    if(!category) return;
+    
+    const allItems = [...listingsData[category].items]; // Create a copy
+    
+    let filteredItems = allItems;
+    
+    // Handle filtering
+    if(value.startsWith('filter-')) {
+        const filterType = value.replace('filter-', '');
+        filteredItems = allItems.filter(item => item.type.includes(filterType));
+    }
+    
+    // Handle sorting
+    if(value === 'sort-newest') {
+        // Assuming newer properties are at the end of the array
+        filteredItems = filteredItems.reverse();
+    }
+    else if(value === 'sort-price-low') {
+        filteredItems = filteredItems.sort((a, b) => {
+            const priceA = parseInt(a.price.replace(/[^0-9]/g, ''));
+            const priceB = parseInt(b.price.replace(/[^0-9]/g, ''));
+            return priceA - priceB;
+        });
+    }
+    else if(value === 'sort-price-high') {
+        filteredItems = filteredItems.sort((a, b) => {
+            const priceA = parseInt(a.price.replace(/[^0-9]/g, ''));
+            const priceB = parseInt(b.price.replace(/[^0-9]/g, ''));
+            return priceB - priceA;
+        });
+    }
+    
+    // Re-render the grid
+    renderListingsGrid(category, filteredItems);
+});
+
+// ── SWIPE GESTURE FOR ALBUM ──
+let touchStartX = 0;
+let touchEndX = 0;
+const albumContainer = document.getElementById('album-main-bg');
+
+if (albumContainer) {
+    // Record the starting position when touch begins
+    albumContainer.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    // Calculate swipe direction when touch ends
+    albumContainer.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+
+    // Determine swipe direction and navigate
+    function handleSwipe() {
+        const swipeThreshold = 50; // Minimum pixels to register as a swipe
+        const swipeDistance = touchEndX - touchStartX;
+
+        // Only trigger if swipe distance is significant
+        if (Math.abs(swipeDistance) > swipeThreshold) {
+            if (swipeDistance < 0) {
+                // Swiped left - go to next image
+                albumNav(1);
+            } else {
+                // Swiped right - go to previous image
+                albumNav(-1);
+            }
+        }
+    }
+}

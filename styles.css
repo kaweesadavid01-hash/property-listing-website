@@ -655,3 +655,34 @@ body.modal-open {overflow:hidden;}
         border-radius: 0 8px 8px 0 !important;
     }
 }
+
+/* ── UNIFIED GRID COLUMNS: 4 Laptop, 3 Tablet, 2 Mobile ── */
+
+/* Default (Laptop / Desktop): 4 Columns */
+#listings-grid,
+#search-results-grid {
+    grid-template-columns: repeat(6, 1fr) !important;
+}
+
+/* Tablet: 3 Columns (Screens 1024px and smaller) */
+@media (max-width: 1024px) {
+    #listings-grid,
+    #search-results-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 16px;
+    }
+}
+
+/* Mobile: 2 Columns (Screens 768px and smaller) */
+@media (max-width: 768px) {
+    #listings-grid,
+    #search-results-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px;
+    }
+    
+    /* Slightly reduce image height so 2 columns fit nicely on phones */
+    .listing-full-card .prop-img {
+        height: 180px;
+    }
+}
