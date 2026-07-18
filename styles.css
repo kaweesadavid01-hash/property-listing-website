@@ -40,7 +40,7 @@ nav.scrolled{background:rgba(28,13,5,.95);backdrop-filter:blur(12px);box-shadow:
 .hamburger span{width:24px;height:1.5px;background:var(--white);display:block;transition:all .3s}
 
 /* ── HERO ── */
-.hero{max-width:100vw;width:100%;height:max-content;min-height:78vh;position:relative;display:flex;align-items:center}
+.hero{max-width:100vw;width:100%;height:max-content;min-height:80vh;position:relative;display:flex;align-items:center}
 .hero-bg{position:absolute;inset:0;background:
   linear-gradient(135deg,
     rgba(26,13,5,.92) 0%,
@@ -59,7 +59,7 @@ nav.scrolled{background:rgba(28,13,5,.95);backdrop-filter:blur(12px);box-shadow:
   radial-gradient(ellipse 70% 60% at 70% 50%,rgba(155,85,35,.3),transparent),
   radial-gradient(ellipse 40% 70% at 20% 80%,rgba(91,46,10,.4),transparent),
   linear-gradient(180deg,rgba(26,13,5,.7),rgba(44,26,14,.4) 50%,rgba(26,13,5,.9));
-  background-image:url(images/7ee2569fb6fe306ecaad1d18c78ea362.jpg);opacity:.4;background-size:cover;background-repeat: no-repeat;background-position:center;
+  background-image:url(images/7ee2569fb6fe306ecaad1d18c78ea362.jpg);opacity:.4;background-size:cover;background-repeat: no-repeat;background-position:center;background-attachment:fixed;
 }
 /* Faux architectural illustration via CSS */
 .hero-illustration{position:absolute;right:-0px;top:50%;transform:translateY(-50%);width:55%;height:100%;opacity:.12;background:
@@ -366,7 +366,7 @@ footer{background:var(--ink);padding:40px 0 0}
   html{scroll-behavior:smooth;font-size:18px}
   .nav-links,.nav-cta{display:none}
   .hamburger{display:flex}
-  .hero{height:fit-content;}
+  .hero{height:calc(60vh - 120px);padding:0 20px}
   .hero-content{padding:0 24px}
   .hero h1{font-size:2rem;margin:auto;}
   .hero-sub{font-size:0.8rem;}
