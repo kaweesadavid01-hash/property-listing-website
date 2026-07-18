@@ -380,7 +380,7 @@ footer{background:var(--ink);padding:40px 0 0}
   .hero-stats-inner {display:flex;animation:scroll-left 12s linear infinite;overflow-x:hidden;}
   @keyframes scroll-left{from{transform: translateX(0);}to{ transform: translateX(-50%);}}
   .section-title{font-family:'Cormorant',serif;font-size:clamp(1.2rem,4vw,2rem);font-weight:300;color:var(--dark);line-height:1;margin-bottom:5px}
-  .section-title strong{font-weight:500}
+  .section-title strong{font-weight:700}
   .section-body{font-size:0.8rem;color:rgba(26,13,5,.65);max-width:80vw;line-height:1.1;font-weight:400;margin-bottom:5px;}
   .services-grid{display:flex;gap:5px;margin-top:6px;justify-content:space-around;margin-left:3px;margin-right:3px;}
   .container{margin:0;padding:2px;max-width:100vw;width:98%;align-items:center;}
@@ -685,4 +685,23 @@ body.modal-open {overflow:hidden;}
     .listing-full-card .prop-img {
         height: 180px;
     }
+}
+
+/* ── FIX SERVICES SECTION TITLE VISIBILITY ── */
+.services-section .section-title,
+.services-section .section-title em,
+.services-section .section-title strong {
+    color: var(--cream) !important; /* Light cream color for dark background */
+}
+
+.services-section .section-eyebrow {
+    color: var(--gold) !important; /* Gold eyebrow for contrast */
+}
+
+.services-section .section-eyebrow::before {
+    background: var(--gold) !important;
+}
+
+.services-section .section-body {
+    color: rgba(245, 230, 208, 0.7) !important; /* Light text for description */
 }
