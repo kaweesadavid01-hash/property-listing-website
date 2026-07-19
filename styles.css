@@ -59,7 +59,7 @@ nav.scrolled{background:rgba(28,13,5,.95);backdrop-filter:blur(12px);box-shadow:
   radial-gradient(ellipse 70% 60% at 70% 50%,rgba(155,85,35,.3),transparent),
   radial-gradient(ellipse 40% 70% at 20% 80%,rgba(91,46,10,.4),transparent),
   linear-gradient(180deg,rgba(26,13,5,.7),rgba(44,26,14,.4) 50%,rgba(26,13,5,.9));
-  background-image:url(images/7ee2569fb6fe306ecaad1d18c78ea362.jpg);opacity:.4;background-size:cover;background-repeat: no-repeat;background-position:center;background-attachment:fixed;
+  background-image:url(images/7ee2569fb6fe306ecaad1d18c78ea362.jpg);opacity:.4;background-size:cover;background-repeat: no-repeat;background-position:center;background-attachment:scroll;
 }
 /* Faux architectural illustration via CSS */
 .hero-illustration{position:absolute;right:-0px;top:50%;transform:translateY(-50%);width:55%;height:100%;opacity:.12;background:
